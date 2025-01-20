@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_banking/models/card_model.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class CardDetailsPage extends StatefulWidget {
   final CardModel cardModel;
@@ -63,6 +64,90 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.upgrade_sharp,
+                        color: Colors.green,
+                      ),
+                      Text(
+                        "${widget.cardModel.percentIncrease}% More than Last Month",
+                        style: TextStyle(
+                          color: Colors.green[500],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8),
+                    child: SizedBox(
+                      height: 200,
+                      width: 300,
+                      child: SfSparkLineChart(
+                        color: Colors.amber,
+                        data: widget.cardModel.graphItems,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(18),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        symbols("D", false),
+                        symbols("M", false),
+                        symbols("6M", true),
+                        symbols("Y", false),
+                        symbols("ALL", false),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "You have receive a \namount of money from: ",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            "\$${widget.cardModel.receiveAmount}",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "\$${widget.cardModel.cardType}",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
@@ -71,6 +156,25 @@ class _CardDetailsPageState extends State<CardDetailsPage> {
       ),
     );
   }
+}
+
+Widget symbols(String name, bool isActive) {
+  return Container(
+    height: 30,
+    width: 30,
+    decoration: BoxDecoration(
+        color: isActive ? Colors.white : Colors.black,
+        borderRadius: BorderRadius.circular(50),
+        border: Border.all(color: Colors.white)),
+    child: Center(
+      child: Text(
+        name,
+        style: TextStyle(
+          color: isActive ? Colors.black : Colors.white,
+        ),
+      ),
+    ),
+  );
 }
 
 Widget headersParts(BuildContext context) {
