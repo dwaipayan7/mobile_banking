@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:mobile_banking/models/card_model.dart';
 import 'package:mobile_banking/models/transaction_model.dart';
+import 'package:mobile_banking/pages/card_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -103,7 +104,6 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: transactions.map(transactionHistory).toList(),
                   ),
-
                 ],
               ),
             ),
@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget transactionHistory(Transaction transaction){
+  Widget transactionHistory(Transaction transaction) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -122,12 +122,41 @@ class _HomePageState extends State<HomePage> {
           Text(
             transaction.title,
             style: TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-              color: transaction.isDebit ? Colors.white : Colors.black
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: transaction.isDebit ? Colors.white : Colors.black),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  transaction.description,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: transaction.isDebit ? Colors.white : Colors.black),
+                ),
+                Text(
+                  transaction.amount,
+                  style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: transaction.isDebit ? Colors.white : Colors.black),
+                ),
+              ],
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 15,
+          ),
+          Divider(
+            color: Colors.white,
+          )
         ],
       ),
     );
@@ -135,7 +164,14 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildCard(CardModel card) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CardDetailsPage(cardModel: card),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.only(right: 15),
         child: Stack(
